@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Order Success</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="success-box">
+
+<h1>✅ Order Successfully</h1>
+
+<p>
+
+Thank you for shopping with
+
+<b>GUD SNUS</b>
+
+</p>
+
+<h2 id="order-id"></h2>
+
+<p>
+
+Please keep your Order ID.
+
+</p>
+
+<a href="index.html" class="success-btn">
+
+Back Home
+
+</a>
+
+</div>
+
+<script>
+
+const params =
+new URLSearchParams(window.location.search);
+
+const id=params.get("order");
+
+document.getElementById("order-id").innerHTML=
+"Order ID : <span>#GUD-"+id+"</span>";
+
+</script>
+
+</body>
+
+</html>

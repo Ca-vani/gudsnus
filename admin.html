@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Dashboard | GUD SNUS</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        GUD <span>SNUS</span>
+    </div>
+
+    <nav>
+
+        <a href="index.html">Home</a>
+
+        <a href="products.html">Products</a>
+
+        <a href="admin.html" class="active">Admin</a>
+
+    </nav>
+
+    <div class="header-right">
+
+    <a href="cart.html" class="cart-icon">
+
+        🛒
+
+        <span id="cart-count">0</span>
+
+    </a>
+
+    <a href="login.html" id="admin-link" class="login-btn">
+
+        👤 Login
+
+    </a>
+
+    <button id="logout-btn" class="logout-btn">
+
+        Logout
+
+    </button>
+
+</div>
+
+</header>
+
+
+<section class="admin-dashboard">
+
+<h1>Admin Dashboard</h1>
+
+<div class="dashboard">
+
+<div class="dashboard-card">
+
+<h2 id="total-products">0</h2>
+
+<p>Total Products</p>
+
+</div>
+
+<div class="dashboard-card">
+
+<h2 id="total-brands">0</h2>
+
+<p>Brands</p>
+
+</div>
+
+<div class="dashboard-card">
+
+<h2 id="total-stock">0</h2>
+
+<p>Total Stock</p>
+
+</div>
+
+<div class="dashboard-card">
+
+<h2 id="total-value">0 đ</h2>
+
+<p>Total Value</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section class="admin">
+
+<h2>Add Product</h2>
+
+<div class="admin-form">
+
+<input
+id="name"
+type="text"
+placeholder="Product Name">
+
+<select id="brand">
+
+<option value="">Select Brand</option>
+
+<option>VELO</option>
+
+<option>ZYN</option>
+
+<option>CUBA</option>
+
+<option>KILLA</option>
+
+<option>WHITE FOX</option>
+
+<option>PABLO</option>
+
+<option>SIBERIA</option>
+
+</select>
+
+<select id="strength">
+
+<option value="">Strength</option>
+
+<option>6MG</option>
+
+<option>9MG</option>
+
+<option>10MG</option>
+
+<option>11MG</option>
+
+<option>12MG</option>
+
+<option>12.8MG</option>
+
+<option>14MG</option>
+
+<option>17MG</option>
+
+<option>20MG</option>
+
+<option>30MG</option>
+
+<option>50MG</option>
+
+</select>
+
+<input
+id="price"
+type="number"
+placeholder="Price">
+
+<input
+id="stock"
+type="number"
+placeholder="Stock">
+
+<input
+id="image"
+placeholder="Image URL">
+
+<textarea
+id="description"
+placeholder="Description"></textarea>
+
+<button onclick="addProduct()">
+
+➕ Add Product
+
+</button>
+
+</div>
+
+</section>
+
+
+
+<section class="product-manager">
+
+<div class="manager-top">
+
+<h2>Product Manager</h2>
+
+<input
+id="search"
+type="text"
+placeholder="🔍 Search Product..."
+onkeyup="searchProducts()">
+
+</div>
+
+<div id="admin-products">
+
+</div>
+
+</section>
+
+<script src="admin.js"></script>
+
+</body>
+
+</html>

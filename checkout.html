@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Checkout | GUD SNUS</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        GUD <span>SNUS</span>
+    </div>
+
+    <nav>
+
+        <a href="index.html">Home</a>
+
+        <a href="products.html" class="active">Products</a>
+
+        <a href="index.html#brands">Brands</a>
+
+        <a href="index.html#contact">Contact</a>
+
+    </nav>
+
+    <div class="header-right">
+
+        <a href="cart.html" class="cart-icon">
+
+            🛒
+
+            <span id="cart-count">0</span>
+
+        </a>
+
+        <a href="login.html" id="admin-link" class="login-btn">
+
+            👤 Login
+
+        </a>
+
+        <button id="logout-btn" class="logout-btn">
+
+            Logout
+
+        </button>
+
+    </div>
+
+</header>
+
+<section class="checkout-page">
+
+    <!-- LEFT -->
+
+    <div class="checkout-left">
+
+        <h2>Customer Information</h2>
+
+        <input
+            type="text"
+            id="name"
+            placeholder="Full Name">
+
+        <input
+            type="text"
+            id="phone"
+            placeholder="Phone Number">
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Email Address">
+
+        <textarea
+            id="address"
+            placeholder="Delivery Address"></textarea>
+
+    </div>
+
+    <!-- RIGHT -->
+
+    <div class="checkout-right">
+
+        <h2>Your Order</h2>
+
+        <div id="checkout-items"></div>
+
+        <div class="checkout-total">
+
+            <span>Total</span>
+
+            <span id="checkout-total">0 đ</span>
+
+        </div>
+
+        <button
+            class="place-order"
+            onclick="placeOrder()">
+
+            Continue To Payment →
+
+        </button>
+
+        <a href="cart.html" class="back-to-cart">
+
+            Back To Cart
+
+        </a>
+
+    </div>
+
+</section>
+
+<script src="checkout.js"></script>
+<script src="app.js"></script>
+<script src="header.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Payment | GUD SNUS</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+
+        GUD <span>SNUS</span>
+
+    </div>
+
+    <nav>
+
+        <a href="index.html">Home</a>
+
+        <a href="products.html">Products</a>
+
+        <a href="index.html#brands">Brands</a>
+
+        <a href="index.html#contact">Contact</a>
+
+    </nav>
+
+    <div class="header-right">
+
+        <a href="cart.html" class="cart-icon">
+
+            🛒
+
+            <span id="cart-count">0</span>
+
+        </a>
+
+    </div>
+
+</header>
+
+<section class="payment-page">
+
+    <div class="payment-box">
+
+        <h1>Choose Payment Method</h1>
+
+        <label class="payment-card">
+
+            <input type="radio" name="pay" value="Cash" checked>
+
+            💵 Cash On Delivery
+
+        </label>
+
+        <label class="payment-card">
+
+            <input type="radio" name="pay" value="Bank">
+
+            🏦 Bank Transfer
+
+        </label>
+
+
+        <div id="payment-info"></div>
+
+        <div class="payment-total">
+
+            <span>Total</span>
+
+            <span id="payment-total"></span>
+            <button onclick="copyAmount()" class="copy-btn">📋</button>
+
+        </div>
+
+        <button class="place-order" onclick="confirmOrder()">
+
+            ✅ Confirm Order
+
+        </button>
+
+    </div>
+
+</section>
+
+<script src="payment.js"></script>
+<script src="app.js"></script>
+<script src="header.js"></script>
+
+</body>
+
+</html>

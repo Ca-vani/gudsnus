@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Shopping Cart | GUD SNUS</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+
+GUD <span>SNUS</span>
+
+</div>
+
+<nav>
+
+<a href="index.html">Home</a>
+
+<a href="products.html" class="active">Products</a>
+
+<a href="index.html#brands">Brands</a>
+
+<a href="index.html#contact">Contact</a>
+
+</nav>
+
+<div class="header-right">
+
+    <a href="cart.html" class="cart-icon">
+
+        🛒
+
+        <span id="cart-count">0</span>
+
+    </a>
+
+    <a href="login.html" id="admin-link" class="login-btn">
+
+        👤 Login
+
+    </a>
+
+    <button id="logout-btn" class="logout-btn">
+
+        Logout
+
+    </button>
+
+</div>
+
+</header>
+
+<section class="cart-page">
+
+<div class="cart-container">
+
+<div class="cart-left">
+
+<h1>🛒 Shopping Cart</h1>
+
+<div id="cart-items"></div>
+
+</div>
+
+<div class="cart-right">
+
+<div class="summary-box">
+
+<h2>Order Summary</h2>
+
+<div class="summary-row">
+<span>Products</span>
+<span id="total">0 đ</span>
+</div>
+
+<div class="summary-row">
+<span>Shipping</span>
+<span>FREE</span>
+</div>
+
+<hr>
+
+<div class="summary-total">
+
+<span>Total</span>
+
+<span id="grand-total">0 đ</span>
+
+</div>
+
+<button class="checkout" onclick="goCheckout()">
+    
+    Checkout
+
+</button>
+
+<button class="clear-btn" onclick="clearCart()">
+
+Clear Cart
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<script src="cart.js"></script>
+<script src="header.js"></script>
+
+</body>
+
+</html>

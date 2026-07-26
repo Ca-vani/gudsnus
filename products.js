@@ -102,7 +102,10 @@ function renderProducts(list = products) {
 
 <div class="product-card">
 
-    <img src="${product.image || ""}" class="product-image">
+    <img
+        src="${product.image || ""}"
+        class="product-image"
+        alt="${product.name}">
 
     <div class="product-info">
 
@@ -110,26 +113,31 @@ function renderProducts(list = products) {
 
         <h4>${product.brand}</h4>
 
-        <p>${product.strength}</p>
+        <p><b>Strength:</b> ${product.strength}</p>
+
+        <p><b>Stock:</b> ${product.stock ?? 0}</p>
+
+        <p>${product.description || ""}</p>
 
         <h3>${Number(product.price).toLocaleString()} đ</h3>
 
     </div>
 
     ${
-        (product.stock === undefined || product.stock > 0)
+        Number(product.stock || 0) > 0
 
         ?
 
-        `<button class="add-cart-btn"
-        onclick="addToCart(${product.id})">
-        Add To Cart
+        `<button
+            class="add-cart-btn"
+            onclick="addToCart(${product.id})">
+            Add To Cart
         </button>`
 
         :
 
         `<button class="soldout">
-        Out Of Stock
+            Out Of Stock
         </button>`
     }
 

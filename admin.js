@@ -69,9 +69,6 @@ async function uploadImage(file){
 // SAVE
 //=========================
 
-function saveProducts(){
-    localStorage.setItem("products", JSON.stringify(products));
-}
 
 //=========================
 // DASHBOARD
@@ -270,10 +267,12 @@ await loadProducts();
     document.getElementById("description").value="";
     document.getElementById("image").value="";
 
-    const preview=document.getElementById("preview");
+    const preview = document.getElementById("preview");
 
-    preview.src="";
-    preview.style.display="none";
+if (preview) {
+    preview.src = "";
+    preview.style.display = "none";
+}
 
     btn.disabled=false;
     btn.innerText="➕ Add Product";

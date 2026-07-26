@@ -7,6 +7,41 @@ if(localStorage.getItem("admin") !== "true"){
 //=========================
 
 let products = JSON.parse(localStorage.getItem("products")) || [];
+let editingIndex = -1;
+
+//=========================
+// CLOUDINARY
+//=========================
+
+const CLOUD_NAME = "vignpvhh";
+const UPLOAD_PRESET = "iwtle5km";
+
+async function uploadImage(file){
+
+    if(!file) return null;
+
+    const formData = new FormData();
+
+    formData.append("file", file);
+    formData.append("upload_preset", UPLOAD_PRESET);
+
+    const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+        {
+            method:"POST",
+            body:formData
+        }
+    );
+
+    if(!response.ok){
+        throw new Error("Upload failed");
+    }
+
+    const data = await response.json();
+
+    return data.secure_url;
+
+}
 
 //=========================
 // SAVE
@@ -29,14 +64,16 @@ function updateDashboard(){
     document.getElementById("total-brands").innerText = brands.length;
 
     let value = 0;
+    let stock = 0;
 
     products.forEach(product=>{
 
         value += Number(product.price);
+        stock += Number(product.stock || 0);
 
     });
 
-    document.getElementById("total-stock").innerText = products.length;
+    document.getElementById("total-stock").innerText = stock;
 
     document.getElementById("total-value").innerText =
         value.toLocaleString() + " đ";
@@ -53,13 +90,12 @@ function renderProducts(list = products){
 
     container.innerHTML = "";
 
-    if(list.length === 0){
+    if(list.length===0){
 
-        container.innerHTML = `
-            <div class="empty">
-                <h2>No Products</h2>
-            </div>
-        `;
+        container.innerHTML=`
+        <div class="empty">
+            <h2>No Products</h2>
+        </div>`;
 
         updateDashboard();
 
@@ -69,39 +105,57 @@ function renderProducts(list = products){
 
     list.forEach((product,index)=>{
 
-        container.innerHTML += `
+        container.innerHTML+=`
 
 <div class="admin-card">
 
-    <div class="admin-left">
+<div class="admin-left">
 
-        <h3>${product.name}</h3>
+<img
+src="${product.image || ''}"
+style="
+width:120px;
+height:120px;
+object-fit:contain;
+background:#fff;
+padding:8px;
+border-radius:12px;
+margin-bottom:15px;
+">
 
-        <p><b>Brand:</b> ${product.brand}</p>
+<h3>${product.name}</h3>
 
-        <p><b>Strength:</b> ${product.strength}</p>
+<p><b>Brand:</b> ${product.brand}</p>
 
-        <p><b>Price:</b> ${Number(product.price).toLocaleString()} đ</p>
+<p><b>Strength:</b> ${product.strength}</p>
 
-    </div>
+<p><b>Stock:</b> ${product.stock ?? 0}</p>
 
-    <div class="admin-right">
+<p><b>Price:</b> ${Number(product.price).toLocaleString()} đ</p>
 
-        <button class="edit-btn"
-        onclick="editProduct(${index})">
+<p>${product.description || ""}</p>
 
-        Edit
+</div>
 
-        </button>
+<div class="admin-right">
 
-        <button class="delete-btn"
-        onclick="deleteProduct(${index})">
+<button
+class="edit-btn"
+onclick="editProduct(${index})">
 
-        Delete
+Edit
 
-        </button>
+</button>
 
-    </div>
+<button
+class="delete-btn"
+onclick="deleteProduct(${index})">
+
+Delete
+
+</button>
+
+</div>
 
 </div>
 
@@ -117,41 +171,78 @@ function renderProducts(list = products){
 // ADD PRODUCT
 //=========================
 
-function addProduct(){
+async function addProduct(){
 
-    const name = document.getElementById("name").value.trim();
+    const btn=document.getElementById("add-btn");
 
-    const brand = document.getElementById("brand").value.trim();
+    btn.disabled=true;
+    btn.innerText="Uploading...";
 
-    const price = Number(document.getElementById("price").value);
+    const name=document.getElementById("name").value.trim();
 
-    const strength = document.getElementById("strength").value.trim();
+    const brand=document.getElementById("brand").value.trim();
+
+    const strength=document.getElementById("strength").value.trim();
+
+    const price=Number(document.getElementById("price").value);
+
+    const stock=Number(document.getElementById("stock").value);
+
+    const description=document.getElementById("description").value.trim();
+
+    const file=document.getElementById("image").files[0];
 
     if(
-        name === "" ||
-        brand === "" ||
-        strength === "" ||
-        isNaN(price) ||
-        price <= 0
+        name===""||
+        brand===""||
+        strength===""||
+        isNaN(price)||
+        price<=0
     ){
 
         alert("Please complete all information.");
+
+        btn.disabled=false;
+        btn.innerText="➕ Add Product";
 
         return;
 
     }
 
+    let image = "";
+
+        try{
+
+            if(file){
+                image = await uploadImage(file);
+            }
+
+        }catch(err){
+
+            alert("Image upload failed.");
+            btn.disabled=false;
+            btn.innerText="➕ Add Product";
+            return;
+
+}
+
     products.push({
 
-        id: Date.now(),
+        id:Date.now(),
 
         name,
 
         brand,
 
+        strength,
+
         price,
 
-        strength
+        stock,
+
+        description,
+
+        image
 
     });
 
@@ -159,10 +250,23 @@ function addProduct(){
 
     renderProducts();
 
-    document.getElementById("name").value = "";
-    document.getElementById("brand").value = "";
-    document.getElementById("price").value = "";
-    document.getElementById("strength").value = "";
+    document.getElementById("name").value="";
+    document.getElementById("brand").value="";
+    document.getElementById("strength").value="";
+    document.getElementById("price").value="";
+    document.getElementById("stock").value="";
+    document.getElementById("description").value="";
+    document.getElementById("image").value="";
+
+    const preview=document.getElementById("preview");
+
+    preview.src="";
+    preview.style.display="none";
+
+    btn.disabled=false;
+    btn.innerText="➕ Add Product";
+
+    alert("Product Added Successfully!");
 
 }
 
@@ -190,50 +294,110 @@ function deleteProduct(index){
 
 function editProduct(index){
 
+    editingIndex = index;
+
     const product = products[index];
 
-    const newName = prompt("Product Name", product.name);
+    document.getElementById("edit-name").value = product.name;
+    document.getElementById("edit-brand").value = product.brand;
+    document.getElementById("edit-strength").value = product.strength;
+    document.getElementById("edit-price").value = product.price;
+    document.getElementById("edit-stock").value = product.stock;
+    document.getElementById("edit-description").value = product.description || "";
 
-    if(newName === null) return;
+    const preview = document.getElementById("edit-preview");
 
-    const newBrand = prompt("Brand", product.brand);
+    if(product.image){
 
-    if(newBrand === null) return;
+        preview.src = product.image;
+        preview.style.display = "block";
 
-    const newStrength = prompt("Strength", product.strength);
+    }else{
 
-    if(newStrength === null) return;
-
-    const newPrice = prompt("Price", product.price);
-
-    if(newPrice === null) return;
-
-    if(
-        newName.trim()==="" ||
-        newBrand.trim()==="" ||
-        newStrength.trim()==="" ||
-        isNaN(newPrice)
-    ){
-
-        alert("Invalid information.");
-
-        return;
+        preview.style.display = "none";
 
     }
 
-    product.name = newName.trim();
+    document.getElementById("editModal").style.display = "flex";
 
-    product.brand = newBrand.trim();
+}
 
-    product.strength = newStrength.trim();
+function closeEdit(){
 
-    product.price = Number(newPrice);
+    document.getElementById("editModal").style.display="none";
+
+    editingIndex = -1;
+
+}
+
+document.getElementById("edit-image").addEventListener("change",function(){
+
+    const file=this.files[0];
+
+    if(!file) return;
+
+    const preview=document.getElementById("edit-preview");
+
+    preview.src=URL.createObjectURL(file);
+
+    preview.style.display="block";
+
+});
+
+document.getElementById("edit-image").value="";
+
+document.getElementById("edit-preview").style.display="none";
+
+async function saveEdit(){
+
+    if(editingIndex===-1) return;
+
+    const product = products[editingIndex];
+
+    product.name =
+    document.getElementById("edit-name").value.trim();
+
+    product.brand =
+    document.getElementById("edit-brand").value;
+
+    product.strength =
+    document.getElementById("edit-strength").value.trim();
+
+    product.price =
+    Number(document.getElementById("edit-price").value);
+
+    product.stock =
+    Number(document.getElementById("edit-stock").value);
+
+    product.description =
+    document.getElementById("edit-description").value.trim();
+
+    const file =
+    document.getElementById("edit-image").files[0];
+
+    if(file){
+
+        try{
+
+            product.image = await uploadImage(file);
+
+        }catch{
+
+            alert("Upload image failed.");
+
+            return;
+
+        }
+
+    }
 
     saveProducts();
 
     renderProducts();
 
-    alert("Product Updated Successfully!");
+    closeEdit();
+
+    alert("Product Updated!");
 
 }
 
@@ -279,3 +443,15 @@ function logout(){
 //=========================
 
 renderProducts();
+
+window.onclick = function(e){
+
+    const modal = document.getElementById("editModal");
+
+    if(e.target === modal){
+
+        closeEdit();
+
+    }
+
+}

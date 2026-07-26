@@ -2,11 +2,33 @@
 // PRODUCTS
 // ===========================
 
-let products = JSON.parse(localStorage.getItem("products")) || [];
+import { db } from "./firebase.js";
+
+import {
+    collection,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+let products = [];
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 const container = document.getElementById("products-container");
+async function loadProducts() {
+
+    const snapshot = await getDocs(collection(db, "products"));
+
+    products = snapshot.docs.map(doc => ({
+
+        id: doc.id,
+
+        ...doc.data()
+
+    }));
+
+    applyCurrentFilter();
+
+}
 
 //==========================
 // CART COUNT
@@ -130,7 +152,7 @@ function renderProducts(list = products) {
 
         `<button
             class="add-cart-btn"
-            onclick="addToCart(${product.id})">
+            onclick="addToCart('${product.id}')">
             Add To Cart
         </button>`
 
@@ -187,17 +209,21 @@ filterButtons.forEach(button => {
 
 const params = new URLSearchParams(window.location.search);
 
-const brand = params.get("brand");
+function applyCurrentFilter() {
 
-if (brand) {
+    const params = new URLSearchParams(window.location.search);
 
-    const result = products.filter(product => product.brand === brand);
+    const brand = params.get("brand");
 
-    renderProducts(result);
+    if (brand) {
 
-} else {
+        renderProducts(products.filter(product => product.brand === brand));
 
-    renderProducts(products);
+    } else {
+
+        renderProducts(products);
+
+    }
 
 }
 
@@ -206,3 +232,5 @@ if (brand) {
 //==========================
 
 updateCartCount();
+loadProducts();
+window.addToCart = addToCart;

@@ -1,3 +1,14 @@
+import { db } from "./firebase.js";
+
+import {
+    collection,
+    getDocs,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    doc
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
 if(localStorage.getItem("admin") !== "true"){
     window.location.href = "login.html";
 }
@@ -6,8 +17,19 @@ if(localStorage.getItem("admin") !== "true"){
 // GUD SNUS ADMIN PANEL
 //=========================
 
-let products = JSON.parse(localStorage.getItem("products")) || [];
+let products = [];
 let editingIndex = -1;
+
+async function loadProducts() {
+    const snapshot = await getDocs(collection(db, "products"));
+
+    products = snapshot.docs.map(doc => ({
+        firebaseId: doc.id,
+        ...doc.data()
+    }));
+
+    renderProducts();
+}
 
 //=========================
 // CLOUDINARY
@@ -226,29 +248,19 @@ async function addProduct(){
 
 }
 
-    products.push({
+    await addDoc(collection(db, "products"), {
 
-        id:Date.now(),
+    name,
+    brand,
+    strength,
+    price,
+    stock,
+    description,
+    image
 
-        name,
+});
 
-        brand,
-
-        strength,
-
-        price,
-
-        stock,
-
-        description,
-
-        image
-
-    });
-
-    saveProducts();
-
-    renderProducts();
+await loadProducts();
 
     document.getElementById("name").value="";
     document.getElementById("brand").value="";
@@ -274,17 +286,13 @@ async function addProduct(){
 // DELETE
 //=========================
 
-function deleteProduct(index){
+async function deleteProduct(index){
 
-    if(confirm("Delete this product?")){
+    if(!confirm("Delete this product?")) return;
 
-        products.splice(index,1);
+    await deleteDoc(doc(db, "products", products[index].firebaseId));
 
-        saveProducts();
-
-        renderProducts();
-
-    }
+    await loadProducts();
 
 }
 
@@ -391,13 +399,23 @@ async function saveEdit(){
 
     }
 
-    saveProducts();
+    await updateDoc(doc(db, "products", product.firebaseId),{
 
-    renderProducts();
+    name: product.name,
+    brand: product.brand,
+    strength: product.strength,
+    price: product.price,
+    stock: product.stock,
+    description: product.description,
+    image: product.image
 
-    closeEdit();
+});
 
-    alert("Product Updated!");
+await loadProducts();
+
+closeEdit();
+
+alert("Product Updated!");
 
 }
 
@@ -442,7 +460,7 @@ function logout(){
 // START
 //=========================
 
-renderProducts();
+loadProducts();
 
 window.onclick = function(e){
 
@@ -455,3 +473,10 @@ window.onclick = function(e){
     }
 
 }
+
+window.addProduct = addProduct;
+window.searchProducts = searchProducts;
+window.editProduct = editProduct;
+window.deleteProduct = deleteProduct;
+window.saveEdit = saveEdit;
+window.closeEdit = closeEdit;

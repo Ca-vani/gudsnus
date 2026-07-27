@@ -156,23 +156,25 @@ margin-bottom:15px;
 
 </div>
 
-<div class="admin-right">
+<div class="product-actions">
 
-<button
-class="edit-btn"
-onclick="editProduct(${index})">
+    <button
+        class="edit-btn"
+        onclick="editProduct(${index})">
 
-Edit
+        <i class="fa-solid fa-pen"></i>
+        Edit
 
-</button>
+    </button>
 
-<button
-class="delete-btn"
-onclick="deleteProduct(${index})">
+    <button
+        class="delete-btn"
+        onclick="deleteProduct(${index})">
 
-Delete
+        <i class="fa-solid fa-trash"></i>
+        Delete
 
-</button>
+    </button>
 
 </div>
 

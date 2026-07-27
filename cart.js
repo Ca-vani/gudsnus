@@ -42,19 +42,33 @@ function renderCart() {
 
             <div class="item-right">
 
-                <button class="qty-btn" onclick="decrease(${index})">−</button>
+    <div class="quantity">
 
-                <span class="qty">${item.quantity}</span>
+        <button class="qty-btn minus" onclick="decrease(${index})">
+            <i class="fa-solid fa-minus"></i>
+        </button>
 
-                <button class="qty-btn" onclick="increase(${index})">+</button>
+        <span class="qty">${item.quantity}</span>
 
-                <button class="remove-btn" onclick="removeItem(${index})">
-                    Remove
-                </button>
+        <button class="qty-btn plus" onclick="increase(${index})">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+
+    </div>
+
+    <button class="remove-btn" onclick="removeItem(${index})">
+
+        <i class="fa-solid fa-trash"></i>
+
+        Remove
+
+    </button>
+
+</div>
+
+</div>
 
             </div>
-
-        </div>
         `;
     });
 

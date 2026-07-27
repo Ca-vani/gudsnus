@@ -1,35 +1,41 @@
 const adminLink = document.getElementById("admin-link");
-
 const logoutBtn = document.getElementById("logout-btn");
 
-if(localStorage.getItem("admin")==="true"){
+if (adminLink && logoutBtn) {
 
-    adminLink.innerHTML="⚙ Admin";
+    if (localStorage.getItem("admin") === "true") {
 
-    adminLink.href="admin.html";
+        adminLink.innerHTML =
+        '<i class="fa-solid fa-gear"></i>';
 
-    logoutBtn.style.display="inline-block";
+        adminLink.href = "admin.html";
 
-}
+        logoutBtn.innerHTML =
+        '<i class="fa-solid fa-right-from-bracket"></i>';
 
-else{
+        logoutBtn.style.display = "inline-flex";
 
-    adminLink.innerHTML="👤 Login";
+    } else {
 
-    adminLink.href="login.html";
+        adminLink.innerHTML =
+        '<i class="fa-solid fa-user"></i> Login';
 
-    logoutBtn.style.display="none";
+        adminLink.href = "login.html";
 
-}
-
-logoutBtn.onclick=function(){
-
-    if(confirm("Logout Admin?")){
-
-        localStorage.removeItem("admin");
-
-        window.location.href="index.html";
+        logoutBtn.style.display = "none";
 
     }
+
+    logoutBtn.onclick = () => {
+
+        if (confirm("Logout Admin?")) {
+
+            localStorage.removeItem("admin");
+
+            window.location.href = "index.html";
+
+        }
+
+    };
 
 }

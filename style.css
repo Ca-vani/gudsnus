@@ -2370,3 +2370,54 @@ nav a{
     margin-top:15px;
 
 }
+
+.product-actions{
+    display:flex;
+    gap:12px;
+    margin-top:18px;
+}
+
+.edit-btn,
+.delete-btn{
+
+    border:none;
+    border-radius:12px;
+
+    padding:10px 18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.edit-btn{
+
+    background:#3b82f6;
+    color:#fff;
+}
+
+.edit-btn:hover{
+
+    background:#2563eb;
+    transform:translateY(-2px);
+}
+
+.delete-btn{
+
+    background:#ff4747;
+    color:#fff;
+}
+
+.delete-btn:hover{
+
+    background:#d93025;
+    transform:translateY(-2px);
+}

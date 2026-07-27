@@ -1,19 +1,26 @@
+const slider = document.querySelector(".slider");
 const slides = document.querySelector(".slides");
 
-const images = document.querySelectorAll(".slides img");
+if (slider && slides) {
 
-let index = 0;
+    const images = slides.querySelectorAll("img");
 
-setInterval(() => {
+    let index = 0;
 
-    index++;
+    function nextSlide() {
 
-    if(index >= images.length){
+        const width = slider.clientWidth;
 
-        index = 0;
+        index++;
+
+        if (index >= images.length) {
+            index = 0;
+        }
+
+        slides.style.transform = `translateX(-${width * index}px)`;
 
     }
 
-    slides.style.transform = `translateX(-${index * 420}px)`;
+    setInterval(nextSlide, 3000);
 
-},3000);
+}
